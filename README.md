@@ -49,7 +49,7 @@ secretKey | NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j
 
 Parameter | Value
 ------------ | ------------
-symbol | LTCBTC
+symbol | LTC_BTC
 side | BUY
 type | LIMIT
 quantity | 1
@@ -57,11 +57,11 @@ price | 0.1
 
 
 ### Example: As a request body
-* **requestBody:** symbol=LTCBTC&side=BUY&type=LIMIT&quantity=1&price=0.1
+* **requestBody:** symbol=LTC_BTC&side=BUY&type=LIMIT&quantity=1&price=0.1
 * **HMAC SHA256 signature:**
 
     ```
-    [linux]$ echo -n "symbol=LTCBTC&side=BUY&type=LIMIT&quantity=1&price=0.1" | openssl dgst -sha256 -hmac "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
+    [linux]$ echo -n "symbol=LTC_BTC&side=BUY&type=LIMIT&quantity=1&price=0.1" | openssl dgst -sha256 -hmac "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
     (stdin)= c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
     ```
 
@@ -70,7 +70,7 @@ price | 0.1
 
     ```
     (HMAC SHA256)
-    [linux]$ curl -H "X-ETBS-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.ethbits.com/api/v1/order' -d 'symbol=symbol=LTCBTC&side=BUY&type=LIMIT&quantity=1&price=0.1&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    [linux]$ curl -H "X-ETBS-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.ethbits.com/api/v1/order' -d 'symbol=symbol=LTC_BTC&side=BUY&type=LIMIT&quantity=1&price=0.1&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
     ```
 
 # Public API Endpoints
@@ -150,12 +150,12 @@ NONE
 ```javascript
 {
   "markets": [{
-    "marketSymbol": "ETHBTC",
+    "symbol": "ETH_BTC",
     "status": "ACTIVE",
     "baseAsset": "ETH",
     "baseAssetPrecision": 8,
     "quoteAsset": "BTC",
-    "quotePrecision": 8,
+    "quoteAssetPrecision": 8,
     "icebergAllowed": false,
     "lastPrice": 0.022,
     "volumeInQuoteAsset" : 10000,
@@ -174,7 +174,7 @@ GET /api/v1/orderBook
 
 Name | Type | Required | Description
 ------------ | ------------ | ------------ | ------------
-marketSymbol | STRING | YES | Example: `ETHBTC`
+symbol | STRING | YES | Example: `ETH_BTC`
 limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000]
 
 **Response:**
@@ -206,7 +206,7 @@ Get recent trades by market. Data is returned in ascending order. Oldest first, 
 
 Name | Type | Required | Description
 ------------ | ------------ | ------------ | ------------
-marketSymbol | STRING | YES | Example: `ETHBTC`
+symbol | STRING | YES | Example: `ETH_BTC`
 limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000]
 
 **Response:**
@@ -241,7 +241,9 @@ type | ENUM | NO | Example: `MARKET` return only market orders
 ```javascript
 [
   {
-    "id": 28457,
+    "id": "8c4449129f1c3c372f2d1886ae84fc8d",
+    "status": "NEW",
+    "type": "LIMIT",
     "price": "4.00000100",
     "amount": "12.00000000",
     "time": 1499865549590
@@ -264,8 +266,8 @@ symbol | STRING | YES | Used with ALL order types.
 side | ENUM | YES | Used with ALL order types.
 type | ENUM | YES | Used with ALL order types.
 amount | DECIMAL | YES | Used with ALL order types.
-price | DECIMAL | NO | Used with `LIMIT` `STOP`, `STOP_LIMIT` order types.
-stopPrice | DECIMAL | NO | Used with `STOP`, `STOP_LIMIT` order types.
+price | DECIMAL | NO | Used with `LIMIT` `STOP`, `STOPLIMIT` order types.
+stopPrice | DECIMAL | NO | Used with `STOP`, `STOPLIMIT` order types.
 
 Additional requirements parameters based on `type`:
 
@@ -274,18 +276,18 @@ Type | Required parameters
 `LIMIT` | `amount`, `price`
 `MARKET` | `amount`
 `STOP` | `amount`, `stopPrice`
-`STOP_LIMIT` | `amount`,  `price`, `stopPrice`
+`STOPLIMIT` | `amount`,  `price`, `stopPrice`
 
 Other info:
 
 * `STOP` will execute a `MARKET` order when the `stopPrice` is reached.
-* `STOP_LIMIT` will execute a `LIMIT` order when the `stopPrice` is reached.
+* `STOPLIMIT` will execute a `LIMIT` order when the `stopPrice` is reached.
 
 **Response:**
 ```javascript
 {
-  "symbol": "BTCUSDT",
-  "orderId": 28223,
+  "id": "8c4449129f1c3c372f2d1886ae84fc8d",
+  "symbol": "BTC_USDT",
   "transactTime": 1507725176595,
   "price": "1.00000000",
   "originalAmount": "10.00000000",
@@ -304,10 +306,10 @@ Cancel an active order.
 
 **Parameters:**
 
-Name | Type | Mandatory | Description
------------- | ------------ | ------------ | ------------
-walletId | INT | YES |
-orderId | INT | YES |
+Name | Type | Required
+------------ | ------------ | ------------
+walletId | INT | YES
+orderId | STRING | YES
 
 
 **Response:**
@@ -317,7 +319,7 @@ orderId | INT | YES |
 
 ### Account information (PRIVATE)
 ```
-GET /api/v3/account
+GET /api/v1/account
 ```
 Get current account information.
 
