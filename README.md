@@ -156,7 +156,6 @@ NONE
     "baseAssetPrecision": 8,
     "quoteAsset": "BTC",
     "quotePrecision": 8,
-    "icebergAllowed": false,
     "lastPrice": 0.022,
     "volumeInQuoteAsset" : 10000,
     "24changeInQuoteAsset": 150,
@@ -315,7 +314,7 @@ orderId | INT | YES |
 {}
 ```
 
-### Account information (PRIVATE)
+### Account information (PUBLIC)
 ```
 GET /api/v3/account
 ```
