@@ -310,6 +310,7 @@ Name | Type | Required
 ------------ | ------------ | ------------
 walletId | INT | YES
 orderId | STRING | YES
+signature | STRING | YES | Used with ALL order types.
 
 
 **Response:**
