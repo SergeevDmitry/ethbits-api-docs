@@ -4,7 +4,7 @@
 * All endpoints return either a JSON object or array.
 * All time and timestamp related fields are in milliseconds.
 * HTTP `4XX` return codes are used for for malformed requests;
-  the issue is on the sender's side.
+  the issue is on the sender's side. See JSON error object.
 * HTTP `5XX` return codes are used for internal errors; the issue is on
   Ethbits's side.
 
@@ -12,7 +12,7 @@
 * Specific error codes and messages defined in another document.
 * For `GET` endpoints, parameters must be sent as a `query string`.
 * For `POST`, `PUT`, and `DELETE` endpoints, the parameters may be sent as a
-  `request body` with content type  `application/json`.
+  `request body` with content type  `application/x-www-form-urlencoded`.
 * Parameters may be sent in any order.
 
 # LIMITS
@@ -52,16 +52,16 @@ Parameter | Value
 symbol | LTC_BTC
 side | BUY
 type | LIMIT
-quantity | 1
+amount | 1
 price | 0.1
 
 
 ### Example: As a request body
-* **requestBody:** symbol=LTC_BTC&side=BUY&type=LIMIT&quantity=1&price=0.1
+* **requestBody:** symbol=LTC_BTC&side=BUY&type=LIMIT&amount=1&price=0.1
 * **HMAC SHA256 signature:**
 
     ```
-    [linux]$ echo -n "symbol=LTC_BTC&side=BUY&type=LIMIT&quantity=1&price=0.1" | openssl dgst -sha256 -hmac "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
+    [linux]$ echo -n "symbol=LTC_BTC&side=BUY&type=LIMIT&amount=1&price=0.1" | openssl dgst -sha256 -hmac "NhqPtmdSJYdKjVHjA7PZj4Mge3R5YNiP1e3UZjInClVN65XAbvqqM6A7H5fATj0j"
     (stdin)= c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71
     ```
 
@@ -70,12 +70,12 @@ price | 0.1
 
     ```
     (HMAC SHA256)
-    [linux]$ curl -H "X-ETBS-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.ethbits.com/api/v1/order' -d 'symbol=symbol=LTC_BTC&side=BUY&type=LIMIT&quantity=1&price=0.1&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    [linux]$ curl -H "X-ETBS-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.ethbits.com/api/v1/order' -d 'symbol=LTC_BTC&side=BUY&type=LIMIT&amount=1&price=0.1&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
     ```
 
 # Public API Endpoints
 ## Terminology
-* `base asset` refers to the asset that is the `quantity` of a symbol.
+* `base asset` refers to the asset that is the `amount` of a symbol.
 * `quote asset` refers to the asset that is the `price` of a symbol.
 
 
@@ -182,13 +182,13 @@ limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500,
   "bids": [
     [
       "4.00000000",     // price
-      "431.00000000"   // quantity
+      "431.00000000"   // amount
     ]
   ],
   "asks": [
     [
       "4.00000200",    // price
-      "12.00000000"   // quantity
+      "12.00000000"   // amount
     ]
   ]
 }
@@ -214,7 +214,7 @@ limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500,
   {
     "id": 28457,
     "price": "4.00000100",
-    "qty": "12.00000000",
+    "amount": "12.00000000",
     "time": 1499865549590
   }
 ]
