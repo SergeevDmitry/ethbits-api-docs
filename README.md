@@ -1,6 +1,6 @@
 # Public Rest API for Ethbits (2018-11-15)
 # General API Information
-* The base endpoint is: **https://api.ethbits.com**
+* The base endpoint is: **https://private-api.ethbits.com/**
 * All endpoints return either a JSON object or array.
 * All time and timestamp related fields are in milliseconds.
 * HTTP `4XX` return codes are used for for malformed requests;
