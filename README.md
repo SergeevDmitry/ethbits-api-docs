@@ -174,7 +174,7 @@ GET /api/v1/orderBook
 Name | Type | Required | Description
 ------------ | ------------ | ------------ | ------------
 symbol | STRING | YES | Example: `ETH_BTC`
-limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000]
+limit | INT | NO | Default 100; max 1000.
 
 **Response:**
 ```javascript
@@ -210,14 +210,47 @@ limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500,
 
 **Response:**
 ```javascript
-[
-  {
-    "id": 28457,
-    "price": "4.00000100",
-    "amount": "12.00000000",
-    "time": 1499865549590
-  }
-]
+{
+  "trades": [
+    {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }, {
+      "price": "0.10000000",
+      "amount": "1.00000000",
+      "time": 1543348437000
+    }
+  ]
+}
 ```
 
 ## Account endpoints
@@ -238,16 +271,47 @@ type | ENUM | NO | Example: `MARKET` return only market orders
 
 **Response:**
 ```javascript
-[
-  {
-    "id": "8c4449129f1c3c372f2d1886ae84fc8d",
-    "status": "NEW",
-    "type": "LIMIT",
-    "price": "4.00000100",
-    "amount": "12.00000000",
-    "time": 1499865549590
-  }
-]
+{
+  "userOrders": [
+    {
+      "symbol": "ETH_BTC",
+      "orderId": "deee7d0deb3b987d6db93163d5ce1de3",
+      "price": "4.00000100",
+      "amount": "12.00000000",
+      "usedAmount": "0.00000000",
+      "status": "NEW",
+      "type": "LIMIT",
+      "side": "SELL",
+      "stopPrice": null,
+      "time": 1543349010802,
+      "updateTime": 1543349011699
+    }, {
+      "symbol": "ETH_BTC",
+      "orderId": "deee7d0deb3b987d6db93163d5ce12e3",
+      "price": "4.00000100",
+      "amount": "12.00000000",
+      "usedAmount": "0.00000000",
+      "status": "CANCELED",
+      "type": "LIMIT",
+      "side": "SELL",
+      "stopPrice": null,
+      "time": 1543349010802,
+      "updateTime": 1543349011699
+    }, {
+      "symbol": "ETH_BTC",
+      "orderId": "deee7d0deb3b987d6db93143d5ce1de3",
+      "price": "4.00000100",
+      "amount": "12.00000000",
+      "usedAmount": "0.00000000",
+      "status": "NEW",
+      "type": "MARKET",
+      "side": "SELL",
+      "stopPrice": null,
+      "time": 1543349010802,
+      "updateTime": 1543349011699
+    }
+  ]
+}
 ```
 
 ### New order creation (PRIVATE)
@@ -287,15 +351,18 @@ Other info:
 **Response:**
 ```javascript
 {
-  "id": "8c4449129f1c3c372f2d1886ae84fc8d",
-  "symbol": "BTC_USDT",
-  "transactTime": 1507725176595,
-  "price": "1.00000000",
-  "originalAmount": "10.00000000",
-  "executedAmount": "10.00000000",
-  "status": "FILLED",
-  "type": "MARKET",
-  "side": "SELL"
+  "newOrder": {
+    "orderId": "8c4449129f1c3c372f2d1886ae84fc8d",
+    "symbol": "BTC_USDT",
+    "price": "1.00000000",
+    "originalAmount": "10.00000000",
+    "executedAmount": "10.00000000",
+    "status": "FILLED",
+    "type": "MARKET",
+    "side": "SELL",
+    "stopPrice": null,
+    "transactTime": 1507725176595
+  }
 }
 ```
 
@@ -332,40 +399,37 @@ NO
 **Response:**
 ```javascript
 {
-
-  "canTrade": true,
-  "canWithdraw": true,
-  "canDeposit": true,
-  "wallets": [
-    {
-      "walletId": 1,
-      "balances": [
-        {
-          "asset": "BTC",
-          "free": "4723846.89208129",
-          "locked": "0.00000000"
-        },
-        {
-          "asset": "LTC",
-          "free": "4763368.68006011",
-          "locked": "0.00000000"
-        }
-      ]
-    }, {
-      "walletId": 2,
-      "balances": [
-        {
-          "asset": "BTC",
-          "free": "4723846.89208129",
-          "locked": "0.00000000"
-        },
-        {
-          "asset": "LTC",
-          "free": "4763368.68006011",
-          "locked": "0.00000000"
-        }
-      ]
-    }
-  ]
+  "rawUserInfo": {
+    "canTrade": true,
+    "canWithdraw": true,
+    "canDeposit": true,
+    "wallets": [
+      {
+        "walletId": 1,
+        "balancesList": [
+          {
+            "asset": "BTC",
+            "free": "4723846.89208129"
+          },
+          {
+            "asset": "LTC",
+            "free": "4763368.68006011"
+          }
+        ]
+      }, {
+        "walletId": 2,
+        "balances": [
+          {
+            "asset": "BTC",
+            "free": "4723846.89208129"
+          },
+          {
+            "asset": "LTC",
+            "free": "4763368.68006011"
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
