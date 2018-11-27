@@ -267,6 +267,7 @@ type | ENUM | YES | Used with ALL order types.
 amount | DECIMAL | YES | Used with ALL order types.
 price | DECIMAL | NO | Used with `LIMIT` `STOP`, `STOPLIMIT` order types.
 stopPrice | DECIMAL | NO | Used with `STOP`, `STOPLIMIT` order types.
+signature | STRING | yes | Used with ALL order types.
 
 Additional requirements parameters based on `type`:
 
