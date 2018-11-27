@@ -282,6 +282,7 @@ Other info:
 
 * `STOP` will execute a `MARKET` order when the `stopPrice` is reached.
 * `STOPLIMIT` will execute a `LIMIT` order when the `stopPrice` is reached.
+* `price`, `amount` or `stopPrice` should be more or equals 0.00000001.
 
 **Response:**
 ```javascript
