@@ -386,6 +386,27 @@ signature | STRING | YES | Used with ALL order types.
 {}
 ```
 
+### Withdraw funds (PRIVATE)
+```
+POST /api/v1/withdraw
+```
+Withdraw your funds. ONLY for whitelisted addresses: **https://www.ethbits.com/settings/withdrawal-addresses**
+
+**Parameters:**
+
+Name | Type | Required
+------------ | ------------ | ------------
+currency | INT | YES
+address | STRING | YES
+amount | DECIMAL | YES
+signature | STRING | YES
+
+
+**Response:**
+```javascript
+{}
+```
+
 ### Account information (PUBLIC)
 ```
 GET /api/v1/account
