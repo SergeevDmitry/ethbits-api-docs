@@ -394,12 +394,12 @@ Withdraw your funds. ONLY for whitelisted addresses: **https://www.ethbits.com/s
 
 **Parameters:**
 
-Name | Type | Required
------------- | ------------ | ------------
-currency | INT | YES
-address | STRING | YES
-amount | DECIMAL | YES
-signature | STRING | YES
+Name | Type | Required | Example
+------------ | ------------ | ------------ | ------------
+currency | STRING | YES | `BTC`
+address | STRING | YES | `3NrRvQ4uss5P1Q2K6qPVUaxC2qaHr6AfYd`
+amount | DECIMAL | YES | `0.1`
+signature | STRING | YES | `c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71`
 
 
 **Response:**
