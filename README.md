@@ -316,7 +316,7 @@ type | ENUM | NO | Example: `MARKET` return only market orders
 
 ### New order creation (PRIVATE)
 ```
-POST /api/v1/order
+POST /api/v1/orders
 ```
 Create new order
 
@@ -368,7 +368,7 @@ Other info:
 
 ### Cancel order (PRIVATE)
 ```
-DELETE /api/v1/order
+DELETE /api/v1/orders
 ```
 Cancel an active order.
 
