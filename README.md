@@ -248,7 +248,7 @@ limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500,
 ```
 
 ## Account endpoints
-### Recent trades list (PUBLIC)
+### User orders list (PUBLIC)
 ```
 GET /api/v1/orders
 ```
@@ -262,6 +262,7 @@ Name | Type | Required | Description
 walletId | INT | YES |
 status | ENUM | NO | Example: `PARTIALLY_FILLED` return only partially filled orders
 type | ENUM | NO | Example: `MARKET` return only market orders
+symbol | STRING | NO | Filters orders by market symbol
 
 **Response:**
 ```javascript
