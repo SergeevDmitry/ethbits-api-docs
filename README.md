@@ -263,6 +263,7 @@ walletId | INT | YES |
 status | ENUM | NO | Example: `PARTIALLY_FILLED` return only partially filled orders
 type | ENUM | NO | Example: `MARKET` return only market orders
 symbol | STRING | NO | Filters orders by market symbol
+limit | INT | NO | Min 100, max 1000. Default: 500
 
 **Response:**
 ```javascript
