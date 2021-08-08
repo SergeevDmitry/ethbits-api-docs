@@ -1,17 +1,15 @@
-# Public Rest API for Ethbits (2018-11-15)
+# Public Rest API for Hivelly Exhange (2021-08-08)
 # General API Information
-* The base endpoint is: **https://private-api.ethbits.com/**
+* The base endpoint is: **https://api.hivelly.com/**
 * All endpoints return either a JSON object or array.
-* All time and timestamp related fields are in milliseconds.
+* All time and timestamp related fields are in milliseconds since epoch.
 * HTTP `4XX` return codes are used for for malformed requests;
   the issue is on the sender's side. See JSON error object.
-* HTTP `5XX` return codes are used for internal errors; the issue is on
-  Ethbits's side.
-
+* HTTP `5XX` return codes are used for internal errors; the issue is on the server side.
 
 * Specific error codes and messages defined in another document.
 * For `GET` endpoints, parameters must be sent as a `query string`.
-* For `POST`, `PUT`, and `DELETE` endpoints, the parameters may be sent as a
+* For `POST`, `PUT`, and `DELETE` endpoints, the parameters must be sent as a
   `request body` with content type  `application/x-www-form-urlencoded`.
 * Parameters may be sent in any order.
 
@@ -20,25 +18,24 @@
 * `x-rate-limit-limit:` the rate limit
 * `x-rate-limit-remaining:` the number of requests left for the 1 minute window
 * A 429 code will be returned when either rate limit is violated.
-* When a 429 is recieved, it's your obligation as an API to back off and not spam the API.
+* When a 429 is received, it's the consumer's obligation to back off and not spam the API.
 * **Repeatedly violating rate limits and/or failing to back off after receiving 429s will result in an automated IP ban (http status 403).**
 
 # Endpoint security type
-* Each endpoint has a security type that determines the how you will
-  interact with it.
-* API-keys are passed into the Rest API via the `X-ETBS-APIKEY`
-  header.
-* API-keys and secret-keys **are case sensitive**.
-
 
 Security Type | Description
 ------------ | ------------
 PUBLIC | Endpoint requires sending a valid API-Key.
 PRIVATE | Endpoint requires sending a valid API-Key and signature.
 
+* Each endpoint has a PUBLIC or PRIVATE security type that determines how API consumers interact with it.
+* API-keys are always sent and passed into the Rest API via the `X-ETBS-APIKEY` header.
+* API-secrets are used in PRIVATE endpoints to generate `HMAC SHA256` signatures. Request payloads are signed and added to the request as the `signature` parameter.
+* API-keys and secret-keys **are case sensitive**.
+
 
 ## PRIVATE Endpoint Examples for POST /api/v1/order
-Here is a step-by-step example of how to send a vaild signed payload from the
+Here is a step-by-step example of how to send a valid signed payload from the
 Linux command line using `echo`, `openssl`, and `curl`.
 
 Key | Value
@@ -70,7 +67,7 @@ price | 0.1
 
     ```
     (HMAC SHA256)
-    [linux]$ curl -H "X-ETBS-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.ethbits.com/api/v1/order' -d 'symbol=LTC_BTC&side=BUY&type=LIMIT&amount=1&price=0.1&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
+    [linux]$ curl -H "X-ETBS-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.hivelly.com/api/v1/order' -d 'symbol=LTC_BTC&side=BUY&type=LIMIT&amount=1&price=0.1&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
     ```
 
 # Public API Endpoints
@@ -130,10 +127,11 @@ Test connectivity to the Rest API and get the current server time.
 NONE
 
 **Response:**
+HTTP Code `200`
 ```javascript
 {
   "timezone": "UTC",
-  "serverTime": 1499827399559
+  "serverTime": 1628451083052
 }
 ```
 
@@ -147,6 +145,7 @@ Current exchange markets information.
 NONE
 
 **Response:**
+HTTP Code `200`
 ```javascript
 {
   "markets": [{
@@ -177,6 +176,7 @@ symbol | STRING | YES | Example: `ETH_BTC`
 limit | INT | NO | Default 100; max 1000.
 
 **Response:**
+HTTP Code `200`
 ```javascript
 {
   "bids": [
@@ -209,6 +209,7 @@ symbol | STRING | YES | Example: `ETH_BTC`
 limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000]
 
 **Response:**
+HTTP Code `200`
 ```javascript
 {
   "trades": [
@@ -266,6 +267,7 @@ symbol | STRING | NO | Filters orders by market symbol
 limit | INT | NO | Min 100, max 1000. Default: 500
 
 **Response:**
+HTTP Code `200`
 ```javascript
 {
   "userOrders": [
@@ -320,7 +322,7 @@ Create new order
 
 Name | Type | Required | Description
 ------------ | ------------ | ------------ | ------------
-waleltId | INT | YES | Used with ALL order types.
+walletId | INT | YES | Used with ALL order types.
 symbol | STRING | YES | Used with ALL order types.
 side | ENUM | YES | Used with ALL order types.
 type | ENUM | YES | Used with ALL order types.
@@ -345,6 +347,7 @@ Other info:
 * `price`, `amount` or `stopPrice` should be more or equals 0.00000001.
 
 **Response:**
+HTTP Code `201`
 ```javascript
 {
   "newOrder": {
@@ -378,6 +381,7 @@ signature | STRING | YES | Used with ALL order types.
 
 
 **Response:**
+HTTP Code `204`
 ```javascript
 {}
 ```
@@ -386,7 +390,7 @@ signature | STRING | YES | Used with ALL order types.
 ```
 POST /api/v1/withdraw
 ```
-Withdraw your funds. ONLY for whitelisted addresses: **https://www.ethbits.com/settings/withdrawal-addresses**
+Withdraw your funds. ONLY for whitelisted addresses @ **https://www.hivelly.com/settings/withdrawal-addresses**
 
 **Parameters:**
 
@@ -400,8 +404,11 @@ signature | STRING | YES | `c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c
 
 
 **Response:**
+HTTP Code `200`
 ```javascript
-{}
+{
+  "withdrawalId": "43bc675c7121ebb69171f7dc48fb93de"
+}
 ```
 
 ### Account information (PUBLIC)
@@ -411,17 +418,17 @@ GET /api/v1/account
 Get current account information.
 
 **Parameters:**
-
-NO
+NONE
 
 **Response:**
+HTTP Code `200`
 ```javascript
 {
   "rawUserInfo": {
     "canTrade": true,
     "canWithdraw": true,
     "canDeposit": true,
-    "wallets": [
+    "walletsList": [
       {
         "walletId": 1,
         "balancesList": [
