@@ -136,6 +136,7 @@ NONE
 ```javascript
 {}
 ```
+HTTP Code `200`
 
 ### Check server time (PUBLIC)
 ```
@@ -147,13 +148,13 @@ Test connectivity to the Rest API and get the current server time.
 NONE
 
 **Response:**
-HTTP Code `200`
 ```javascript
 {
   "timezone": "UTC",
   "serverTime": 1628451083052
 }
 ```
+HTTP Code `200`
 
 ### Markets information (PUBLIC)
 ```
@@ -165,7 +166,6 @@ Current exchange markets information.
 NONE
 
 **Response:**
-HTTP Code `200`
 ```javascript
 {
   "markets": [{
@@ -182,6 +182,7 @@ HTTP Code `200`
   }]
 }
 ```
+HTTP Code `200`
 
 ### Order book (PUBLIC)
 ```
@@ -196,7 +197,6 @@ symbol | STRING | YES | Example: `ETH_BTC`
 limit | INT | NO | Default 100; max 1000.
 
 **Response:**
-HTTP Code `200`
 ```javascript
 {
   "bids": [
@@ -213,6 +213,7 @@ HTTP Code `200`
   ]
 }
 ```
+HTTP Code `200`
 
 ### Recent trades list (PUBLIC)
 ```
@@ -229,7 +230,6 @@ symbol | STRING | YES | Example: `ETH_BTC`
 limit | INT | NO | Default 100; max 1000. Valid limits:[5, 10, 20, 50, 100, 500, 1000]
 
 **Response:**
-HTTP Code `200`
 ```javascript
 {
   "trades": [
@@ -267,6 +267,7 @@ HTTP Code `200`
   ]
 }
 ```
+HTTP Code `200`
 
 ## Account endpoints
 ### Account information (PUBLIC)
@@ -279,7 +280,6 @@ Get current account information.
 NONE
 
 **Response:**
-HTTP Code `200`
 ```javascript
 {
   "rawUserInfo": {
@@ -320,6 +320,7 @@ HTTP Code `200`
   }
 }
 ```
+HTTP Code `200`
 
 ### User orders list (PUBLIC)
 ```
@@ -339,7 +340,6 @@ symbol | STRING | NO | Filters orders by market symbol
 limit | INT | NO | Min 100, max 1000. Default: 500
 
 **Response:**
-HTTP Code `200`
 ```javascript
 {
   "userOrders": [
@@ -383,6 +383,7 @@ HTTP Code `200`
   ]
 }
 ```
+HTTP Code `200`
 
 # Private API Endpoints
 ### New order creation (PRIVATE)
@@ -420,7 +421,6 @@ Other info:
 * `price`, `amount` or `stopPrice` should be more or equals 0.00000001.
 
 **Response:**
-HTTP Code `201`
 ```javascript
 {
   "newOrder": {
@@ -437,6 +437,7 @@ HTTP Code `201`
   }
 }
 ```
+HTTP Code `201`
 
 ### Cancel order (PRIVATE)
 ```
@@ -454,10 +455,10 @@ signature | STRING | YES | Used with ALL order types.
 
 
 **Response:**
-HTTP Code `204`
 ```javascript
 {}
 ```
+HTTP Code `204`
 
 ### Withdraw funds (PRIVATE)
 ```
@@ -477,9 +478,9 @@ signature | STRING | YES | `c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c
 
 
 **Response:**
-HTTP Code `200`
 ```javascript
 {
   "withdrawalId": "43bc675c7121ebb69171f7dc48fb93de"
 }
 ```
+HTTP Code `200`
