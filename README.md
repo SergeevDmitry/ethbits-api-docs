@@ -70,11 +70,31 @@ price | 0.1
     [linux]$ curl -H "X-ETBS-APIKEY: vmPUZE6mv9SD5VNHk4HlWFsOr6aKE2zvsw0MuIgwCIPy6utIco14y7Ju91duEh8A" -X POST 'https://api.hivelly.com/api/v1/order' -d 'symbol=LTC_BTC&side=BUY&type=LIMIT&amount=1&price=0.1&signature=c8db56825ae71d6d79447849e617115f4a920fa2acdcab2b053c4b2838bd6b71'
     ```
 
+# Endpoints
+<!--ts-->
+  * [Public API Endpoints](#public-api-endpoints)
+    * [Terminology](#terminology)
+    * [ENUM Definitions](#enum-definitions)
+    * [General Endpoints](#general-endpoints)
+      * [GET /api/v1/ping](#test-connectivity-public)
+      * [GET /api/v1/time](#check-server-time-public)
+      * [GET /api/v1/markets](#markets-information-public)
+      * [GET /api/v1/orderBook](#order-book-public)
+      * [GET /api/v1/trades](#recent-trades-list-public)
+      * [GET /api/v1/markets](#markets-information-public)
+    * [Account Endpoints](#account-endpoints)
+      * [GET /api/v1/account](#account-information-public)
+      * [GET /api/v1/orders](#user-orders-list-public)
+  * [Private API Endpoints](#private-api-endpoints)
+    * [POST /api/v1/orders](#new-order-creation-private)
+    * [DELETE /api/v1/orders](#cancel-order-private)
+    * [POST /api/v1/withdraw](#withdraw-funds-private)
+<!--te-->
+
 # Public API Endpoints
 ## Terminology
 * `base asset` refers to the asset that is the `amount` of a symbol.
 * `quote asset` refers to the asset that is the `price` of a symbol.
-
 
 ## ENUM definitions
 **Market status:**
@@ -249,6 +269,58 @@ HTTP Code `200`
 ```
 
 ## Account endpoints
+### Account information (PUBLIC)
+```
+GET /api/v1/account
+```
+Get current account information.
+
+**Parameters:**
+NONE
+
+**Response:**
+HTTP Code `200`
+```javascript
+{
+  "rawUserInfo": {
+    "canTrade": true,
+    "canWithdraw": true,
+    "canDeposit": true,
+    "walletsList": [
+      {
+        "walletId": 1,
+        "balancesList": [
+          {
+            "asset": "BTC",
+            "free": "4723846.89208129",
+            "locked": "25.00623000"
+          },
+          {
+            "asset": "LTC",
+            "free": "4763368.68006011"
+            "locked": "25.00623000"
+          }
+        ]
+      }, {
+        "walletId": 2,
+        "balances": [
+          {
+            "asset": "BTC",
+            "free": "4723846.89208129"
+            "locked": "25.00623000"
+          },
+          {
+            "asset": "LTC",
+            "free": "4763368.68006011"
+            "locked": "25.00623000"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
 ### User orders list (PUBLIC)
 ```
 GET /api/v1/orders
@@ -312,6 +384,7 @@ HTTP Code `200`
 }
 ```
 
+# Private API Endpoints
 ### New order creation (PRIVATE)
 ```
 POST /api/v1/orders
@@ -408,57 +481,5 @@ HTTP Code `200`
 ```javascript
 {
   "withdrawalId": "43bc675c7121ebb69171f7dc48fb93de"
-}
-```
-
-### Account information (PUBLIC)
-```
-GET /api/v1/account
-```
-Get current account information.
-
-**Parameters:**
-NONE
-
-**Response:**
-HTTP Code `200`
-```javascript
-{
-  "rawUserInfo": {
-    "canTrade": true,
-    "canWithdraw": true,
-    "canDeposit": true,
-    "walletsList": [
-      {
-        "walletId": 1,
-        "balancesList": [
-          {
-            "asset": "BTC",
-            "free": "4723846.89208129",
-            "locked": "25.00623000"
-          },
-          {
-            "asset": "LTC",
-            "free": "4763368.68006011"
-            "locked": "25.00623000"
-          }
-        ]
-      }, {
-        "walletId": 2,
-        "balances": [
-          {
-            "asset": "BTC",
-            "free": "4723846.89208129"
-            "locked": "25.00623000"
-          },
-          {
-            "asset": "LTC",
-            "free": "4763368.68006011"
-            "locked": "25.00623000"
-          }
-        ]
-      }
-    ]
-  }
 }
 ```
